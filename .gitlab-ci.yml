@@ -1,0 +1,24 @@
+variables:
+    GIT_SUBMODULE_STRATEGY: "recursive"
+
+before_script:
+    - git lfs fetch
+    - git lfs checkout
+
+after_script:
+    - echo log-after_script
+
+stages:
+    - check
+    - test
+    - build
+    - package
+    - deploy
+
+checked_by_cppcheck:
+    stage: check
+    script:
+        - echo check
+        - 'cppcheck . --enable=warning,style,performance,portability --xml-version=2 --error-exitcode=1 -i external/ -i build/'
+    tags:
+        - cppcheck
