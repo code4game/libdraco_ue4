@@ -1,0 +1,3 @@
+[submodule "external/draco"]
+	path = external/draco
+	url = git@github.com:google/draco.git
