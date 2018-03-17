@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2018 Code 4 Game <develop@c4g.io>
+// Copyright (o) 2016-2018 Code 4 Game <develop@c4g.io>
 
 using UnrealBuildTool;
 
@@ -14,23 +14,37 @@ public class libdraco_ue4 : ModuleRules
 
         if ((Target.Platform == UnrealTargetPlatform.Win32) || (Target.Platform == UnrealTargetPlatform.Win64))
         {
-            string VSPath = "vs" + WindowsPlatform.GetVisualStudioCompilerVersionName();
-
-            string PlatformPath = "";
+            string PlatformName = "";
             switch (Target.Platform)
             {
             case UnrealTargetPlatform.Win32:
-                PlatformPath = "win32";
+                PlatformName = "win32";
                 break;
             case UnrealTargetPlatform.Win64:
-                PlatformPath = "win64";
+                PlatformName = "win64";
                 break;
             }
 
-            LibPath = System.IO.Path.Combine(DracoPath, "lib", VSPath, PlatformPath, "Release");
+            string VSName = "vs" + WindowsPlatform.GetVisualStudioCompilerVersionName();
+
+            LibPath = System.IO.Path.Combine(DracoPath, "lib", PlatformName, VSName);
 
             PublicAdditionalLibraries.Add("dracodec.lib");
             PublicAdditionalLibraries.Add("dracoenc.lib");
+        }
+        else if (Target.Platform == UnrealTargetPlatform.Linux)
+        {
+            LibPath = System.IO.Path.Combine(DracoPath, "lib", "linux");
+
+            PublicAdditionalLibraries.Add("libdracodec.a");
+            PublicAdditionalLibraries.Add("libdracoenc.a");
+        }
+        else if (Target.Platform == UnrealTargetPlatform.Mac)
+        {
+            LibPath = System.IO.Path.Combine(DracoPath, "lib", "macos");
+
+            PublicAdditionalLibraries.Add("libdracodec.a");
+            PublicAdditionalLibraries.Add("libdracoenc.a");
         }
 
         PublicIncludePaths.Add(IncludePath);
