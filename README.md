@@ -14,6 +14,18 @@ Use the [Draco][] and make it as a third-party library in [UE4][].
 
 ## Usage
 
+### Copy to your project/plugin
+
+First of all, download the archive [![Download from itch.io](https://img.shields.io/badge/from-itch%2Eio-blue.svg?style=flat)](https://c4gio.itch.io/libdraco-ue4).
+
+Then, you just extra the archive in [your_project_root]/ThirdParty/ for a UE4 project, or extra the archive in [your_plugin_root]/Source/ThirdParty/ for a UE4 plugin.
+
+### Add to the libdraco_ue4 as a module in your module
+
+Just add the `libdraco_ue4` to the `PublicDependencyModuleNames` list in [your_module.Build.cs].
+
+### Include the draco's header file
+
 When include the draco's header file, you need write like this:
 
 > Because it has a compiler conflict between the `draco::Status::Code::ERROR` and the macro `ERROR` in UE4 when compile.
@@ -38,17 +50,23 @@ When include the draco's header file, you need write like this:
 
 [![Visit in trello](https://img.shields.io/badge/visit-trello-blue.svg?style=flat)](https://trello.com/b/1yQyCz0D)
 
+## Supported Platforms
+
+* Windows 32-bit and 64-bit
+* macOS
+* Linux
+
 ## Unreal Engine 4 Version
 
 | UE4 | Status | Download |
 |:---:|:------:|:--------:|
-| [![Support UE4.10](https://img.shields.io/badge/ue-4%2E10-green.svg?style=flat)](#) | [![Build success](https://img.shields.io/badge/build-success-green.svg?style=flat)](#) | [![Download from itch.io](https://img.shields.io/badge/from-itch%2Eio-blue.svg?style=flat)](https://c4gio.itch.io/gltf-for-ue4) |
+| [![Support UE4.10](https://img.shields.io/badge/ue-4%2E10-green.svg?style=flat)](#) | [![Build success](https://img.shields.io/badge/build-success-green.svg?style=flat)](#) | [![Download from itch.io](https://img.shields.io/badge/from-itch%2Eio-blue.svg?style=flat)](https://c4gio.itch.io/libdraco-ue4) |
 | [![Support UE4.11](https://img.shields.io/badge/ue-4%2E11-green.svg?style=flat)](#) | [![Build success](https://img.shields.io/badge/build-success-green.svg?style=flat)](#) | Same as UE4.10 |
 | [![Support UE4.12](https://img.shields.io/badge/ue-4%2E12-green.svg?style=flat)](#) | [![Build success](https://img.shields.io/badge/build-success-green.svg?style=flat)](#) | Same as UE4.10 |
 | [![Support UE4.13](https://img.shields.io/badge/ue-4%2E13-green.svg?style=flat)](#) | [![Build success](https://img.shields.io/badge/build-success-green.svg?style=flat)](#) | Same as UE4.10 |
 | [![Support UE4.14](https://img.shields.io/badge/ue-4%2E14-green.svg?style=flat)](#) | [![Build success](https://img.shields.io/badge/build-success-green.svg?style=flat)](#) | Same as UE4.10 |
 | [![Support UE4.15](https://img.shields.io/badge/ue-4%2E15-green.svg?style=flat)](#) | [![Build success](https://img.shields.io/badge/build-success-green.svg?style=flat)](#) | Same as UE4.10 |
-| [![Support UE4.16](https://img.shields.io/badge/ue-4%2E16-green.svg?style=flat)](#) | [![Build success](https://img.shields.io/badge/build-success-green.svg?style=flat)](#) | [![Download from itch.io](https://img.shields.io/badge/from-itch%2Eio-blue.svg?style=flat)](https://c4gio.itch.io/gltf-for-ue4) |
+| [![Support UE4.16](https://img.shields.io/badge/ue-4%2E16-green.svg?style=flat)](#) | [![Build success](https://img.shields.io/badge/build-success-green.svg?style=flat)](#) | [![Download from itch.io](https://img.shields.io/badge/from-itch%2Eio-blue.svg?style=flat)](https://c4gio.itch.io/libdraco-ue4) |
 | [![Support UE4.17](https://img.shields.io/badge/ue-4%2E17-green.svg?style=flat)](#) | [![Build success](https://img.shields.io/badge/build-success-green.svg?style=flat)](#) | Same as UE4.16 |
 | [![Support UE4.18](https://img.shields.io/badge/ue-4%2E18-green.svg?style=flat)](#) | [![Build success](https://img.shields.io/badge/build-success-green.svg?style=flat)](#) | Same as UE4.16 |
 | [![Support UE4.19](https://img.shields.io/badge/ue-4%2E19-green.svg?style=flat)](#) | [![Build success](https://img.shields.io/badge/build-success-green.svg?style=flat)](#) | Same as UE4.16 |
