@@ -46,6 +46,13 @@ public class libdraco_ue4 : ModuleRules
             PublicAdditionalLibraries.Add("libdracodec.a");
             PublicAdditionalLibraries.Add("libdracoenc.a");
         }
+        else if (Target.Platform == UnrealTargetPlatform.IOS)
+        {
+            LibPath = System.IO.Path.Combine(DracoPath, "lib", "ios");
+
+            PublicAdditionalLibraries.Add("libdracodec.a");
+            PublicAdditionalLibraries.Add("libdracoenc.a");
+        }
 
         PublicIncludePaths.Add(IncludePath);
         PublicLibraryPaths.Add(LibPath);

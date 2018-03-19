@@ -69,7 +69,7 @@ compile_draco.linux:
         - 'make dracoenc'
         - 'cd ../../../'
         - 'mkdir -p output/lib/linux'
-        - 'cp external/draco/build/libdra*.a output/lib/linux/'
+        - 'cp -v external/draco/build/libdra*.a output/lib/linux/'
     artifacts:
         name: "libdraco.linux.%CI_PIPELINE_ID%.%CI_JOB_ID%"
         expire_in: 1 week
@@ -94,7 +94,33 @@ compile_draco.macos:
         - 'make dracoenc'
         - 'cd ../../../'
         - 'mkdir -p output/lib/macos'
-        - 'cp external/draco/build/libdraco*.a output/lib/macos/'
+        - 'cp -v external/draco/build/libdraco*.a output/lib/macos/'
+    artifacts:
+        name: "libdraco.macos.%CI_PIPELINE_ID%.%CI_JOB_ID%"
+        expire_in: 1 week
+        paths:
+            - output/lib/*
+    tags:
+        - macos
+        - gcc
+        - cmake
+        - make
+
+compile_draco.ios:
+    stage: build
+    script:
+        - 'rm -rf output'
+        - 'cd external/draco'
+        - 'rm -rf build'
+        - 'mkdir build'
+        - 'cd build'
+        - 'cmake -DCMAKE_TOOLCHAIN_FILE=../../../external/ios-cmake/toolchain/iOS.cmake ../'
+        - 'make dracodec'
+        - 'make dracoenc'
+        - 'cd ../'
+        - 'cd ../../'
+        - 'mkdir -p output/lib/ios'
+        - 'cp -v external/draco/build/libdraco*.a output/lib/ios'
     artifacts:
         name: "libdraco.macos.%CI_PIPELINE_ID%.%CI_JOB_ID%"
         expire_in: 1 week
@@ -124,6 +150,7 @@ package_ue4.10:
         - compile_draco.windows
         - compile_draco.linux
         - compile_draco.macos
+        - compile_draco.ios
     artifacts:
         name: "libdrack_ue4.10.%CI_PIPELINE_ID%.%CI_JOB_ID%"
         expire_in: 1 week
@@ -136,10 +163,10 @@ package_ue4.10:
 libdraco_ue4.10:
     stage: deploy
     script:
-        - 'mkdir output'
-        - 'mv ./libdraco_ue4 ./output'
+        - 'mkdir $CI_JOB_NAME'
+        - 'mv ./libdraco_ue4 ./$CI_JOB_NAME'
         - 'butler login'
-        - 'butler push ./output c4gio/libdraco-ue4:ue4.10'
+        - 'butler push ./$CI_JOB_NAME c4gio/libdraco-ue4:ue4.10'
         - 'butler logout'
     artifacts:
         name: "$CI_JOB_NAME.$CI_PIPELINE_ID"
@@ -173,6 +200,7 @@ package_ue4.16:
         - compile_draco.windows
         - compile_draco.linux
         - compile_draco.macos
+        - compile_draco.ios
     artifacts:
         name: "libdrack_ue4.16.%CI_PIPELINE_ID%.%CI_JOB_ID%"
         expire_in: 1 week
@@ -185,10 +213,10 @@ package_ue4.16:
 libdraco_ue4.16:
     stage: deploy
     script:
-        - 'mkdir output'
-        - 'mv ./libdraco_ue4 ./output'
+        - 'mkdir $CI_JOB_NAME'
+        - 'mv ./libdraco_ue4 ./$CI_JOB_NAME'
         - 'butler login'
-        - 'butler push ./output c4gio/libdraco-ue4:ue4.16'
+        - 'butler push ./$CI_JOB_NAME c4gio/libdraco-ue4:ue4.16'
         - 'butler logout'
     artifacts:
         name: "$CI_JOB_NAME.$CI_PIPELINE_ID"
