@@ -47,7 +47,7 @@ compile_draco.windows:
         - 'xcopy external\draco\build64vs2015\Release\*.lib output\lib\win64\vs2015\ /s /r /y'
     artifacts:
         name: "libdraco.windows.%CI_PIPELINE_ID%.%CI_JOB_ID%"
-        expire_in: 1 week
+        expire_in: 1 month
         paths:
             - output\lib\*
     tags:
@@ -72,7 +72,7 @@ compile_draco.linux:
         - 'cp -v external/draco/build/libdra*.a output/lib/linux/'
     artifacts:
         name: "libdraco.linux.%CI_PIPELINE_ID%.%CI_JOB_ID%"
-        expire_in: 1 week
+        expire_in: 1 month
         paths:
             - output/lib/*
     tags:
@@ -97,7 +97,7 @@ compile_draco.macos:
         - 'cp -v external/draco/build/libdraco*.a output/lib/macos/'
     artifacts:
         name: "libdraco.macos.%CI_PIPELINE_ID%.%CI_JOB_ID%"
-        expire_in: 1 week
+        expire_in: 1 month
         paths:
             - output/lib/*
     tags:
@@ -122,8 +122,8 @@ compile_draco.ios:
         - 'mkdir -p output/lib/ios'
         - 'cp -v external/draco/build/libdraco*.a output/lib/ios'
     artifacts:
-        name: "libdraco.macos.%CI_PIPELINE_ID%.%CI_JOB_ID%"
-        expire_in: 1 week
+        name: "libdraco.ios.%CI_PIPELINE_ID%.%CI_JOB_ID%"
+        expire_in: 1 month
         paths:
             - output/lib/*
     tags:
@@ -152,8 +152,8 @@ package_ue4.10:
         - compile_draco.macos
         - compile_draco.ios
     artifacts:
-        name: "libdrack_ue4.10.%CI_PIPELINE_ID%.%CI_JOB_ID%"
-        expire_in: 1 week
+        name: "libdraco_ue4.10.%CI_PIPELINE_ID%.%CI_JOB_ID%"
+        expire_in: 1 month
         paths:
             - libdraco_ue4/*
     tags:
@@ -170,7 +170,7 @@ libdraco_ue4.10:
         - 'butler logout'
     artifacts:
         name: "$CI_JOB_NAME.$CI_PIPELINE_ID"
-        expire_in: 1 week
+        expire_in: 1 month
         paths:
             - $CI_JOB_NAME/*
     when: manual
@@ -202,8 +202,8 @@ package_ue4.16:
         - compile_draco.macos
         - compile_draco.ios
     artifacts:
-        name: "libdrack_ue4.16.%CI_PIPELINE_ID%.%CI_JOB_ID%"
-        expire_in: 1 week
+        name: "libdraco_ue4.16.%CI_PIPELINE_ID%.%CI_JOB_ID%"
+        expire_in: 1 month
         paths:
             - libdraco_ue4/*
     tags:
@@ -220,12 +220,62 @@ libdraco_ue4.16:
         - 'butler logout'
     artifacts:
         name: "$CI_JOB_NAME.$CI_PIPELINE_ID"
-        expire_in: 1 week
+        expire_in: 1 month
         paths:
             - $CI_JOB_NAME/*
     when: manual
     dependencies:
         - package_ue4.16
+    tags:
+        - linux
+        - python
+        - itchio
+        - butler
+
+package_ue4.19:
+    stage: package
+    script:
+        - 'xcopy README.md libdraco_ue4\README.md* /r /y'
+        - 'xcopy LICENSE.md libdraco_ue4\LICENSE.md* /r /y'
+        - 'xcopy libdraco_ue4.19.Build.cs libdraco_ue4\libdraco_ue4.Build.cs* /r /y'
+        - 'xcopy external\draco\src\draco\core\*.h libdraco_ue4\libdraco-1.2.5\include\draco\core\ /s/r/y'
+        - 'xcopy external\draco\src\draco\metadata\*.h libdraco_ue4\libdraco-1.2.5\include\draco\metadata\ /s /r /y'
+        - 'xcopy external\draco\src\draco\mesh\*.h libdraco_ue4\libdraco-1.2.5\include\draco\mesh\ /s /r /y'
+        - 'xcopy external\draco\src\draco\point_cloud\*.h libdraco_ue4\libdraco-1.2.5\include\draco\point_cloud\ /s /r /y'
+        - 'xcopy external\draco\src\draco\attributes\*.h libdraco_ue4\libdraco-1.2.5\include\draco\attributes\ /s /r /y'
+        - 'xcopy external\draco\src\draco\compression\*.h libdraco_ue4\libdraco-1.2.5\include\draco\compression\ /s /r /y'
+        - 'xcopy external\draco\src\draco\io\*.h libdraco_ue4\libdraco-1.2.5\include\draco\io\ /s /r /y'
+        - 'xcopy output\lib\*.* libdraco_ue4\libdraco-1.2.5\lib\ /s /r /y'
+    dependencies:
+        - compile_draco.windows
+        - compile_draco.linux
+        - compile_draco.macos
+        - compile_draco.ios
+    artifacts:
+        name: "libdraco_ue4.19.%CI_PIPELINE_ID%.%CI_JOB_ID%"
+        expire_in: 1 month
+        paths:
+            - libdraco_ue4/*
+    tags:
+        - win32
+        - win64
+
+libdraco_ue4.19:
+    stage: deploy
+    script:
+        - 'mkdir $CI_JOB_NAME'
+        - 'mv ./libdraco_ue4 ./$CI_JOB_NAME'
+        - 'butler login'
+        - 'butler push ./$CI_JOB_NAME c4gio/libdraco-ue4:ue4.19'
+        - 'butler logout'
+    artifacts:
+        name: "$CI_JOB_NAME.$CI_PIPELINE_ID"
+        expire_in: 1 month
+        paths:
+            - $CI_JOB_NAME/*
+    when: manual
+    dependencies:
+        - package_ue4.19
     tags:
         - linux
         - python
