@@ -1,6 +1,7 @@
 // Copyright (o) 2016-2018 Code 4 Game <develop@c4g.io>
 
 using UnrealBuildTool;
+using System.Collections.Generic;
 
 public class libdraco_ue4 : ModuleRules
 {
@@ -8,11 +9,10 @@ public class libdraco_ue4 : ModuleRules
     {
         Type = ModuleType.External;
 
-        string DracoPath = System.IO.Path.Combine(ModuleDirectory, "libdraco-1.2.5");
+        string DracoPath = System.IO.Path.Combine(ModuleDirectory, "libdraco-1.3.4");
         string IncludePath = System.IO.Path.Combine(DracoPath, "include");
-        string LibPath = "";
-        string LibFilePath1 = "";
-        string LibFilePath2 = "";
+        List<string> LibPaths = new List<string>();
+        List<string> LibFilePaths = new List<string>();
 
         if ((Target.Platform == UnrealTargetPlatform.Win32) || (Target.Platform == UnrealTargetPlatform.Win64))
         {
@@ -29,36 +29,54 @@ public class libdraco_ue4 : ModuleRules
 
             string VSName = "vs" + WindowsPlatform.GetVisualStudioCompilerVersionName();
 
-            LibPath = System.IO.Path.Combine(DracoPath, "lib", PlatformName, VSName);
+            string TargetConfiguration = "Release";
+            if (Target.Configuration == UnrealTargetConfiguration.Debug)
+            {
+                TargetConfiguration = "Debug";
+            }
 
-            LibFilePath1 = System.IO.Path.Combine(LibPath, "dracodec.lib");
-            LibFilePath2 = System.IO.Path.Combine(LibPath, "dracoenc.lib");
+            LibPaths.Add(System.IO.Path.Combine(DracoPath, "lib", PlatformName, VSName, TargetConfiguration));
+
+            LibFilePaths.Add("dracodec.lib");
+            LibFilePaths.Add("dracoenc.lib");
         }
         else if (Target.Platform == UnrealTargetPlatform.Linux)
         {
-            LibPath = System.IO.Path.Combine(DracoPath, "lib", "linux");
+            LibPaths.Add(System.IO.Path.Combine(DracoPath, "lib", "linux"));
 
-            LibFilePath1 = System.IO.Path.Combine(LibPath, "libdracodec.a");
-            LibFilePath2 = System.IO.Path.Combine(LibPath, "libdracoenc.a");
+            LibFilePaths.Add("libdracodec.a");
+            LibFilePaths.Add("libdracoenc.a");
         }
         else if (Target.Platform == UnrealTargetPlatform.Mac)
         {
-            LibPath = System.IO.Path.Combine(DracoPath, "lib", "macos");
+            LibPaths.Add(System.IO.Path.Combine(DracoPath, "lib", "macos"));
 
-            LibFilePath1 = System.IO.Path.Combine(LibPath, "libdracodec.a");
-            LibFilePath2 = System.IO.Path.Combine(LibPath, "libdracoenc.a");
+            LibFilePaths.Add("libdracodec.a");
+            LibFilePaths.Add("libdracoenc.a");
+        }
+        else if (Target.Platform == UnrealTargetPlatform.Android)
+        {
+            LibPaths.Add(System.IO.Path.Combine(DracoPath, "lib", "android", "armeabi-v7a"));
+            LibPaths.Add(System.IO.Path.Combine(DracoPath, "lib", "android", "armeabi-v7a-with-neon"));
+            LibPaths.Add(System.IO.Path.Combine(DracoPath, "lib", "android", "arm64-v8a"));
+            LibPaths.Add(System.IO.Path.Combine(DracoPath, "lib", "android", "x86"));
+            LibPaths.Add(System.IO.Path.Combine(DracoPath, "lib", "android", "x86_64"));
+
+            LibFilePaths.Add("libdracodec.a");
+            LibFilePaths.Add("libdracoenc.a");
         }
         else if (Target.Platform == UnrealTargetPlatform.IOS)
         {
-            LibPath = System.IO.Path.Combine(DracoPath, "lib", "ios");
+            LibPaths.Add(System.IO.Path.Combine(DracoPath, "lib", "ios", "os"));
+            LibPaths.Add(System.IO.Path.Combine(DracoPath, "lib", "ios", "simulator"));
+            LibPaths.Add(System.IO.Path.Combine(DracoPath, "lib", "ios", "watchos"));
 
-            LibFilePath1 = System.IO.Path.Combine(LibPath, "libdracodec.a");
-            LibFilePath2 = System.IO.Path.Combine(LibPath, "libdracoenc.a");
+            LibFilePaths.Add("libdracodec.a");
+            LibFilePaths.Add("libdracoenc.a");
         }
 
         PublicIncludePaths.Add(IncludePath);
-        PublicLibraryPaths.Add(LibPath);
-        PublicAdditionalLibraries.Add(LibFilePath1);
-        PublicAdditionalLibraries.Add(LibFilePath2);
+        PublicLibraryPaths.AddRange(LibPaths);
+        PublicAdditionalLibraries.AddRange(LibFilePaths);
     }
 }
