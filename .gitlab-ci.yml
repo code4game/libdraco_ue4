@@ -21,50 +21,26 @@ compile.windows:
         - 'cd external/draco'
         - 'if exist build rmdir /s /q build'
         - 'mkdir build && cd build'
-        - 'call "%VS2017COMNTOOLS%VsDevCmd.bat"'
-        - 'mkdir vs2017 && cd vs2017'
+        - 'mkdir vs2019 && cd vs2019'
+        - 'call "%VS160COMNTOOLS%VsDevCmd.bat"'
         - 'mkdir win32 && cd win32'
-        - 'cmake -G "Visual Studio 15 2017" ../../../'
+        - '"%CMAKE_BIN_PATH%\cmake.exe" -G "Visual Studio 16 2019" -A "Win32" ../../../'
         - 'msbuild dracodec.vcxproj /t:Build /p:Configuration="Release" /p:Platform="Win32"'
         - 'msbuild dracodec.vcxproj /t:Build /p:Configuration="Debug" /p:Platform="Win32"'
         - 'msbuild dracoenc.vcxproj /t:Build /p:Configuration="Release" /p:Platform="Win32"'
         - 'msbuild dracoenc.vcxproj /t:Build /p:Configuration="Debug" /p:Platform="Win32"'
         - 'cd ../'
         - 'mkdir win64 && cd win64'
-        - 'cmake -G "Visual Studio 15 2017 Win64" ../../../'
+        - '"%CMAKE_BIN_PATH%\cmake.exe" -G "Visual Studio 16 2019" -A "x64" ../../../'
         - 'msbuild dracodec.vcxproj /t:Build /p:Configuration="Release" /p:Platform="x64"'
         - 'msbuild dracodec.vcxproj /t:Build /p:Configuration="Debug" /p:Platform="x64"'
         - 'msbuild dracoenc.vcxproj /t:Build /p:Configuration="Release" /p:Platform="x64"'
         - 'msbuild dracoenc.vcxproj /t:Build /p:Configuration="Debug" /p:Platform="x64"'
-        - 'cd ../'
-        - 'cd ../'
-        - 'call "%VS140COMNTOOLS%VsDevCmd.bat"'
-        - 'mkdir vs2015 && cd vs2015'
-        - 'mkdir win32 && cd win32'
-        - 'cmake -G "Visual Studio 14 2015" ../../../'
-        - 'msbuild dracodec.vcxproj /t:Build /p:Configuration="Release" /p:Platform="Win32"'
-        - 'msbuild dracodec.vcxproj /t:Build /p:Configuration="Debug" /p:Platform="Win32"'
-        - 'msbuild dracoenc.vcxproj /t:Build /p:Configuration="Release" /p:Platform="Win32"'
-        - 'msbuild dracoenc.vcxproj /t:Build /p:Configuration="Debug" /p:Platform="Win32"'
-        - 'cd ../'
-        - 'mkdir win64 && cd win64'
-        - 'cmake -G "Visual Studio 14 2015 Win64" ../../../'
-        - 'msbuild dracodec.vcxproj /t:Build /p:Configuration="Release" /p:Platform="x64"'
-        - 'msbuild dracodec.vcxproj /t:Build /p:Configuration="Debug" /p:Platform="x64"'
-        - 'msbuild dracoenc.vcxproj /t:Build /p:Configuration="Release" /p:Platform="x64"'
-        - 'msbuild dracoenc.vcxproj /t:Build /p:Configuration="Debug" /p:Platform="x64"'
-        - 'cd ../'
-        - 'cd ../'
-        - 'cd ../'
-        - 'cd ../../'
-        - 'xcopy external\draco\build\vs2015\win32\Release\*.lib output\lib\win32\vs2015\Release\ /s /r /y'
-        - 'xcopy external\draco\build\vs2015\win32\Debug\*.lib output\lib\win32\vs2015\Debug\ /s /r /y'
-        - 'xcopy external\draco\build\vs2015\win64\Release\*.lib output\lib\win64\vs2015\Release\ /s /r /y'
-        - 'xcopy external\draco\build\vs2015\win64\Debug\*.lib output\lib\win64\vs2015\Debug\ /s /r /y'
-        - 'xcopy external\draco\build\vs2017\win32\Release\*.lib output\lib\win32\vs2017\Release\ /s /r /y'
-        - 'xcopy external\draco\build\vs2017\win32\Debug\*.lib output\lib\win32\vs2017\Debug\ /s /r /y'
-        - 'xcopy external\draco\build\vs2017\win64\Release\*.lib output\lib\win64\vs2017\Release\ /s /r /y'
-        - 'xcopy external\draco\build\vs2017\win64\Debug\*.lib output\lib\win64\vs2017\Debug\ /s /r /y'
+        - 'cd ../../../'
+        - 'xcopy external\draco\build\vs2019\win32\Release\*.lib output\lib\win32\vs2019\Release\ /s /r /y'
+        - 'xcopy external\draco\build\vs2019\win32\Debug\*.lib output\lib\win32\vs2019\Debug\ /s /r /y'
+        - 'xcopy external\draco\build\vs2019\win64\Release\*.lib output\lib\win64\vs2019\Release\ /s /r /y'
+        - 'xcopy external\draco\build\vs2019\win64\Debug\*.lib output\lib\win64\vs201   9\Debug\ /s /r /y'
     artifacts:
         name: "libdraco.windows.%CI_PIPELINE_ID%.%CI_JOB_ID%"
         expire_in: 1 month
@@ -74,8 +50,7 @@ compile.windows:
         - win32
         - win64
         - cmake
-        - vs2015
-        - vs2017
+        - vs2019
 
 compile.linux:
     stage: build
