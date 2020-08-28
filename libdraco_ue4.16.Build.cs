@@ -1,6 +1,7 @@
 // Copyright (o) 2016-2020 Code 4 Game <develop@c4g.io>
 
 using UnrealBuildTool;
+using System.Collections.Generic;
 
 public class libdraco_ue4 : ModuleRules
 {

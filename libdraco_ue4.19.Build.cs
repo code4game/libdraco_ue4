@@ -1,6 +1,7 @@
 // Copyright (o) 2016-2020 Code 4 Game <develop@c4g.io>
 
 using UnrealBuildTool;
+using System.Collections.Generic;
 
 public class libdraco_ue4 : ModuleRules
 {
@@ -16,7 +17,7 @@ public class libdraco_ue4 : ModuleRules
         if ((Target.Platform == UnrealTargetPlatform.Win32) || (Target.Platform == UnrealTargetPlatform.Win64))
         {
             string PlatformName = "";
-#if UE_4_20_OR_LATER
+#if UE_4_23_OR_LATER
             if (Target.Platform == UnrealTargetPlatform.Win32)
             {
                 PlatformName = "win32";
