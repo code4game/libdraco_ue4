@@ -26,15 +26,13 @@ public class libdraco_ue4 : ModuleRules
                 break;
             }
 
-            string VSName = "vs" + Target.WindowsPlatform.GetVisualStudioCompilerVersionName();
-
             string TargetConfiguration = "Release";
             if (Target.Configuration == UnrealTargetConfiguration.Debug)
             {
                 TargetConfiguration = "Debug";
             }
 
-            LibPaths.Add(System.IO.Path.Combine(DracoPath, "lib", PlatformName, VSName, TargetConfiguration));
+            LibPaths.Add(System.IO.Path.Combine(DracoPath, "lib", PlatformName, "vs2019", TargetConfiguration));
 
             LibFilePaths.Add("dracodec.lib");
             LibFilePaths.Add("dracoenc.lib");
