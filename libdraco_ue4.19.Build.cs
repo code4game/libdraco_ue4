@@ -16,6 +16,16 @@ public class libdraco_ue4 : ModuleRules
         if ((Target.Platform == UnrealTargetPlatform.Win32) || (Target.Platform == UnrealTargetPlatform.Win64))
         {
             string PlatformName = "";
+#if UE_4_20_OR_LATER
+            if (Target.Platform == UnrealTargetPlatform.Win32)
+            {
+                PlatformName = "win32";
+            }
+            else if (Target.Platform == UnrealTargetPlatform.Win64)
+            {
+                PlatformName = "win64";
+            }
+#else
             switch (Target.Platform)
             {
             case UnrealTargetPlatform.Win32:
@@ -25,6 +35,7 @@ public class libdraco_ue4 : ModuleRules
                 PlatformName = "win64";
                 break;
             }
+#endif
 
             string TargetConfiguration = "Release";
             if (Target.Configuration == UnrealTargetConfiguration.Debug)
