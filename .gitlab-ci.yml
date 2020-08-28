@@ -41,7 +41,7 @@ compile.windows:
         - 'xcopy external\draco\build\vs2019\win32\Release\*.lib output\lib\win32\vs2019\Release\ /s /r /y'
         - 'xcopy external\draco\build\vs2019\win32\Debug\*.lib output\lib\win32\vs2019\Debug\ /s /r /y'
         - 'xcopy external\draco\build\vs2019\win64\Release\*.lib output\lib\win64\vs2019\Release\ /s /r /y'
-        - 'xcopy external\draco\build\vs2019\win64\Debug\*.lib output\lib\win64\vs201   9\Debug\ /s /r /y'
+        - 'xcopy external\draco\build\vs2019\win64\Debug\*.lib output\lib\win64\vs2019\Debug\ /s /r /y'
     artifacts:
         name: "libdraco.windows.%CI_PIPELINE_ID%.%CI_JOB_ID%"
         expire_in: 1 month
